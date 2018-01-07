@@ -8,23 +8,39 @@ canvas { background: #fff;
          margin: 0 auto;
 }
 
-body {
-    background-color: #eee;
-}
-
-p, h1, h2{
+h1{
     padding: 5%; 
     margin: 0; 
     color: #000;
     text-align: center;
     font-weight: lighter;
     font-size: 3em;
-	font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
-button{
+p{
     color: #000;
     text-align: center;
-    font-family: 'Roboto', sans-serif;
     font-weight: lighter;
+    font-size: 1em;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+}
+
+#start{
+	/*background colour*/
+	background-color: #0a0;
+	/*text colour*/
+    color: #fff;
+    /*border*/
+	border: 3px solid black;
+	/*Spacing*/
+	padding: 2px;
+	/*List sizing*/
+	min-width: 200px;
+	max-width: 60%;
+	/*Keep list central*/
+	margin: auto;
+	/*Curvy corners*/
+    border-radius: 20px;
 }
