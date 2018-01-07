@@ -45,6 +45,8 @@ var ballcolour = "#000";
 var leftcolour = "#95DD00";
 var rightcolour = "#00DD95";
 
+var winner = "";
+
 //Recognise keypresses
 function keyDownHandler(e) {
     if (e.keyCode == 40) {
@@ -185,7 +187,8 @@ function canvasResize() {
     ballRadius = ((canvas.height + canvas.width) / 2) / 50;
     //reset ball position to middle if outside right border
     if (ballX + ballRadius > canvas.width) {
-        ballX = canvas.width/2;
+        //ballX = canvas.width/2;
+        ballX = canvas.width - ballRadius*2
     }
     //move ball up slightly if outside bottom border
     if (ballY + ballRadius> canvas.height) {
@@ -201,14 +204,16 @@ function canvasResize() {
     }
 }
 
-function endGame() {
+function endGame(winner) {
     gameover = true;
     ctx.textAlign = "center";
     ctx.font = "50px Segoe UI";
+    ctx.fillStyle = "#000";
+    ctx.fillText(winner + " wins!", (canvas.width / 2), (canvas.height / 2) - 75);
     ctx.fillStyle = rightcolour;
-    ctx.fillText("Right Score: " + rightscore, (canvas.width / 2), (canvas.height / 2) + 75);
+    ctx.fillText("Right Score: " + rightscore, (canvas.width / 2), (canvas.height / 2));
     ctx.fillStyle = leftcolour;
-    ctx.fillText("Left Score: " + leftscore, (canvas.width / 2), (canvas.height / 2) - 75);
+    ctx.fillText("Left Score: " + leftscore, (canvas.width / 2), (canvas.height / 2) + 75);
 }
 
 function resetGame() {
@@ -245,7 +250,7 @@ function ballControl() {
             balldy = -balldy;
         }
         //this is the computer's chance of hitting the ball
-        missBallProbLeft = randomNum(0, 3);
+        //missBallProbLeft = randomNum(0, 3);
     }
 
     //If Left Misses Ball
@@ -256,7 +261,7 @@ function ballControl() {
         bouncecount++;
         ballcolour = "#000";
         //this is the computer's chance of hitting the ball
-        missBallProbLeft = randomNum(0, 3);
+        //missBallProbLeft = randomNum(0, 3);
     }
 
     //If Right Hits Ball
@@ -368,12 +373,15 @@ function draw() {
     drawPaddleLeft();
     drawScores();
     debug();
-    if (leftscore >= winscore || rightscore >= winscore) {
-        //check to see if either player has won the game
-        endGame();
+    //check to see if either player has won the game
+    if (leftscore >= winscore) {
+        endGame("Left");
     }
+    if (rightscore >= winscore) {
+        endGame("Right");
+    }
+    //only run these while the game is being played
     if (gameover == false) {
-        //run only while the game is being played
         ballControl();
         paddleControl();
     }
