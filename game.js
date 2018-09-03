@@ -120,7 +120,7 @@ function randomNum(min, max) {
 
 //Debug text stuff
 function debug() {
-    //Middle of the screen
+    //Middle of the screen (x direction)
     var middleX = canvas.width / 2;
 
     if (debugMode == true) {
@@ -219,8 +219,8 @@ function endGame(winner) {
     ctx.fillText("Left Score: " + leftscore, (canvas.width / 2), (canvas.height / 2) + 75);
 }
 
+//Reset the game to the initial values
 function resetGame() {
-    //Reset to initial values
     gameover = false;
     leftscore = 0;
     rightscore = 0;
