@@ -3,21 +3,21 @@ var ctx = canvas.getContext("2d");
 
 var ballX = canvas.width / 2;       //X dimension of ball
 var ballY = canvas.height / 2;      //Y dimension of ball
-var ballVelModX = 0;                //Modifiers to change the speed depending on size of window
-var ballVelModY = 0;
-var balldx = 2;                     //Base speed of ball without modifier
-var balldy = -2;
-var ballVelX = 0;                   //speed of ball with modifiers (balldx * ballVelModX)
-var ballVelY = 0;                   //(balldy * ballVelModY)
-var ballRadius = 10;
+var ballVelModX = 0;                //Modifier to change the speed in the X direction depending on size of window
+var ballVelModY = 0;                //Modifier to change the speed in the Y direction depending on size of window
+var balldx = 2;                     //Base speed of ball in the x direction without modifier
+var balldy = -2;                    //Base speed of ball in the x direction without modifier
+var ballVelX = 0;                   //Speed of ball with modifiers (balldx * ballVelModX)
+var ballVelY = 0;                   //Speed of ball with modifiers (balldy * ballVelModY)
+var ballRadius = 10;                //Radius of the ball
 
 var paddleHeight = 100;
 var paddleWidth = 10;
 var rightpaddleY = 15;
 var leftpaddleY = 15;
 var paddleVel = 10;
-//var leftComputerDifficulty = 1;  //difficulty of game with computers (between 0.5 and 1)
-//var rightComputerDifficulty = 1;
+//var leftComputerDifficulty = 1;  //Difficulty of game with computers (between 0.5 and 1)
+//var rightComputerDifficulty = 1; //Difficulty of game with computers (between 0.5 and 1)
 
 var leftscore = 0;
 var rightscore = 0;
@@ -49,58 +49,56 @@ var winner = "";
 
 //Recognise keypresses
 function keyDownHandler(e) {
+    //Down key pressed
     if (e.keyCode == 40) {
-        //down
         downPressed = true;
     }
+    //Up key pressed
     else if (e.keyCode == 38) {
-        //up
         upPressed = true;
     }
+    //"s" key pressed
     if (e.keyCode == 83) {
-        //s
         sPressed = true;
     }
+    //"w" key pressed
     else if (e.keyCode == 87) {
-        //w
         wPressed = true;
     }
+    //"r" key pressed
     if (e.keyCode == 82) {
-        //r
         resetGame();
     }
+    //"j" key pressed  (Toggle debug mode)
     if (e.keyCode == 74) {
-        //j
-        //toggle debug mode
         debugMode = !debugMode;
     }
+    //"1" key pressed  (Toggle whether computerLeft is active)
     if (e.keyCode == 49) {
-        //1
-        //toggle whether computerLeft is active
         computerLeft = !computerLeft;
     }
+    //"2" key pressed  (Toggle whether computerRight is active)
     else if (e.keyCode == 50) {
-        //2
-        //toggle whether computerRight is active
         computerRight = !computerRight;
     }
-//when keys released
 }
+
+//Recognise when keys are released
 function keyUpHandler(e) {
+    //Down key released
     if (e.keyCode == 40) {
-        //down
         downPressed = false;
     }
+    //Up key released
     else if (e.keyCode == 38) {
-        //up
         upPressed = false;
     }
+    //"s" key released
     if (e.keyCode == 83) {
-        //s
         sPressed = false;
     }
+    //"w" key released
     else if (e.keyCode == 87) {
-        //w
         wPressed = false;
     }
 }
@@ -120,7 +118,7 @@ function randomNum(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-//stuff in debug text
+//Debug text stuff
 function debug() {
     if (debugMode == true) {
         ctx.textAlign = "center";
@@ -185,20 +183,20 @@ function canvasResize() {
     paddleWidth = canvas.width / 100;
     paddleVel = canvas.height / 100;
     ballRadius = ((canvas.height + canvas.width) / 2) / 50;
-    //reset ball position to middle if outside right border
+    //Reset ball position to middle if outside right border
     if (ballX + ballRadius > canvas.width) {
         //ballX = canvas.width/2;
         ballX = canvas.width - ballRadius*2
     }
-    //move ball up slightly if outside bottom border
+    //Move ball up slightly if outside bottom border
     if (ballY + ballRadius> canvas.height) {
         ballY = canvas.height - ballRadius;
     }
-    //move left paddle if outside border
+    //Move left paddle if outside border
     if (leftpaddleY + paddleHeight > canvas.height) {
         leftpaddleY = canvas.height - paddleHeight
     }
-    //move right paddle if outside border
+    //Move right paddle if outside border
     if (rightpaddleY + paddleHeight > canvas.height) {
         rightpaddleY = canvas.height - paddleHeight
     }
@@ -217,7 +215,7 @@ function endGame(winner) {
 }
 
 function resetGame() {
-    //reset to initial values
+    //Reset to initial values
     gameover = false;
     leftscore = 0;
     rightscore = 0;
@@ -229,13 +227,13 @@ function resetGame() {
 }
 
 function ballControl() {
-    //make the ball move
+    //Make the ball move
     ballVelX = balldx * ballVelModX;
     ballVelY = balldy * ballVelModY;
     ballX += ballVelX;
     ballY += ballVelY;
 
-    //If Left Hits Ball
+    //If left hits ball
     if ((ballX + balldx) - paddleWidth < ballRadius && ballY > leftpaddleY && ballY < leftpaddleY + paddleHeight) {
         balldx = -(balldx * randomNum(1.01, 1.05));
         balldy = balldy * randomNum(1.01, 1.03);
@@ -249,22 +247,22 @@ function ballControl() {
         if (wPressed == true && balldy > 0) {
             balldy = -balldy;
         }
-        //this is the computer's chance of hitting the ball
+        //This is the computer's chance of hitting the ball
         //missBallProbLeft = randomNum(0, 3);
     }
 
-    //If Left Misses Ball
+    //If left misses ball
     if (ballX + balldx < ballRadius) {
         balldx = -(balldx * randomNum(0.90, 0.99));
         balldy = balldy * randomNum(0.98, 1.00);
         leftscore--;
         bouncecount++;
         ballcolour = "#000";
-        //this is the computer's chance of hitting the ball
+        //This is the computer's chance of hitting the ball
         //missBallProbLeft = randomNum(0, 3);
     }
 
-    //If Right Hits Ball
+    //If right hits ball
     if ((ballX + balldx) + paddleWidth > canvas.width - ballRadius && ballY > rightpaddleY && ballY < rightpaddleY + paddleHeight) {
         balldx = -(balldx * randomNum(1.01, 1.05));
         balldy = balldy * randomNum(1.01, 1.03);
@@ -280,7 +278,7 @@ function ballControl() {
         }
     }
 
-    //If Right Misses Ball
+    //If right misses ball
     if (ballX + balldx > canvas.width - ballRadius) {
         balldx = -(balldx * randomNum(0.9, 0.99));
         balldy = balldy * randomNum(0.98, 1.00);
@@ -303,7 +301,7 @@ function paddleControl() {
         if (downPressed && rightpaddleY < canvas.height - paddleHeight) {
             rightpaddleY += paddleVel;
         }
-        //Right Paddle Down
+        //Right paddle down
         else if (upPressed && rightpaddleY > 0) {
             rightpaddleY -= paddleVel;
         }
@@ -311,11 +309,11 @@ function paddleControl() {
 
     //Right - Computer controls paddle
     else {
-        //Right Paddle Up
+        //Right paddle up
         if (ballY + ballRadius / 2 > rightpaddleY + paddleHeight / 4 && rightpaddleY < canvas.height - paddleHeight) {
             rightpaddleY += paddleVel / 2;
         }
-        //Right Paddle Down
+        //Right paddle down
         else if (ballY + ballRadius / 2 < rightpaddleY + paddleHeight - paddleHeight / 4 && rightpaddleY > 0) {
             rightpaddleY -= paddleVel / 2;
         }
@@ -331,12 +329,12 @@ function paddleControl() {
 
     //Left paddle
     if (computerLeft == false) {
-        //Left Player in control
-        //Left Paddle Up
+        //Left player in control
+        //Left paddle up
         if (sPressed && leftpaddleY < canvas.height - paddleHeight) {
             leftpaddleY += paddleVel;
         }
-        //Left Paddle Down
+        //Left paddle down
         else if (wPressed && leftpaddleY > 0) {
             leftpaddleY -= paddleVel;
         }
@@ -344,11 +342,11 @@ function paddleControl() {
 
     //Right - Computer controls paddle
     else {
-        //Right Paddle Up
+        //Right paddle up
         if (ballY + ballRadius / 2 > leftpaddleY + paddleHeight / 4 && leftpaddleY < canvas.height - paddleHeight) {
             leftpaddleY += paddleVel / 2;
         }
-        //Right Paddle Down
+        //Right paddle down
         else if (ballY + ballRadius / 2 < leftpaddleY + paddleHeight - paddleHeight / 4 && leftpaddleY > 0) {
             leftpaddleY -= paddleVel / 2;
         }
@@ -364,23 +362,22 @@ function paddleControl() {
 }
 
 
-
+//Do all the functions!
 function draw() {
-    //do all the functions!
     canvasResize();
     drawBall();
     drawPaddleRight();
     drawPaddleLeft();
     drawScores();
     debug();
-    //check to see if either player has won the game
+    //Check to see if either player has won the game
     if (leftscore >= winscore) {
         endGame("Left");
     }
     if (rightscore >= winscore) {
         endGame("Right");
     }
-    //only run these while the game is being played
+    //Only run these while the game is being played
     if (gameover == false) {
         ballControl();
         paddleControl();
