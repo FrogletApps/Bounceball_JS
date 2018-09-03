@@ -120,24 +120,27 @@ function randomNum(min, max) {
 
 //Debug text stuff
 function debug() {
+    //Middle of the screen
+    var middleX = canvas.width / 2;
+
     if (debugMode == true) {
         ctx.textAlign = "center";
         ctx.font = "11px Consolas";
         ctx.fillStyle = "#AAA";
-        ctx.fillText("DEBUG MODE", canvas.width / 2, 10);
-        ctx.fillText("Press J to hide", canvas.width / 2, 20);
+        ctx.fillText("DEBUG MODE", middleX, 10);
+        ctx.fillText("Press J to hide", middleX, 20);
 
         ctx.font = "9px Consolas";
-        ctx.fillText("Right Score: " + rightscore, canvas.width / 2, 40);
-        ctx.fillText("Left Score: " + leftscore, canvas.width / 2, 50);
-        ctx.fillText("ballX: " + ballX, canvas.width / 2, 60);
-        ctx.fillText("ballY: " + ballY, canvas.width / 2, 70);
-        ctx.fillText("balldx: " + balldx, canvas.width / 2, 80);
-        ctx.fillText("balldy: " + balldy, canvas.width / 2, 90);
-        ctx.fillText("bouncecount: " + bouncecount, canvas.width / 2, 100);
-        ctx.fillText("modX: " + ballVelModX, canvas.width / 2, 110);
-        ctx.fillText("modY: " + ballVelModY, canvas.width / 2, 120);
-        ctx.fillText("missballleft: " + missBallProbLeft, canvas.width / 2, 130);
+        ctx.fillText("Right Score: " + rightscore, middleX, 40);
+        ctx.fillText("Left Score: " + leftscore, middleX, 50);
+        ctx.fillText("ballX: " + ballX, middleX, 60);
+        ctx.fillText("ballY: " + ballY, middleX, 70);
+        ctx.fillText("balldx: " + balldx, middleX, 80);
+        ctx.fillText("balldy: " + balldy, middleX, 90);
+        ctx.fillText("bouncecount: " + bouncecount, middleX, 100);
+        ctx.fillText("modX: " + ballVelModX, middleX, 110);
+        ctx.fillText("modY: " + ballVelModY, middleX, 120);
+        ctx.fillText("missballleft: " + missBallProbLeft, middleX, 130);
     }
 }
 
@@ -167,8 +170,10 @@ function drawPaddleLeft() {
 
 function drawScores() {
     ctx.font = "100px Segoe UI Light";
+    ctx.textAlign = "right";
     ctx.fillStyle = rightcolour;
-    ctx.fillText(rightscore, canvas.width - 100, 100);
+    ctx.fillText(rightscore, canvas.width - 50, 100);
+    ctx.textAlign = "left";
     ctx.fillStyle = leftcolour;
     ctx.fillText(leftscore, 50, 100);
 }
